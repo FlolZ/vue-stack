@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1 data-test="title">{{ computedMsg }}</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
       check out the
@@ -111,8 +111,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { defineComponent, reactive, toRefs, onMounted } from "@vue/composition-api";
+import {
+  computed,
+  defineComponent,
+  reactive,
+  toRefs,
+} from "@vue/composition-api";
 
 interface HelloWorldPropOptions {
   msg: string;
@@ -121,22 +125,22 @@ interface HelloWorldPropOptions {
 export default defineComponent<HelloWorldPropOptions>({
   props: {
     msg: {
-      type:String,
+      type: String,
       required: true,
-    }
+    },
   },
   setup(props) {
     const data = reactive({});
 
-    onMounted(() => {
-      console.log(props);
+    const computedMsg = computed(() => {
+      return props.msg.toUpperCase();
     });
-
     return {
-      ...toRefs(data)
-    }
-  }
-})
+      ...toRefs(data),
+      computedMsg,
+    };
+  },
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
