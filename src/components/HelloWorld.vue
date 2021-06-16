@@ -112,11 +112,31 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { defineComponent, reactive, toRefs, onMounted } from "@vue/composition-api";
 
-@Component
-export default class HelloWorld extends Vue {
-  @Prop() private msg!: string;
+interface HelloWorldPropOptions {
+  msg: string;
 }
+
+export default defineComponent<HelloWorldPropOptions>({
+  props: {
+    msg: {
+      type:String,
+      required: true,
+    }
+  },
+  setup(props) {
+    const data = reactive({});
+
+    onMounted(() => {
+      console.log(props);
+    });
+
+    return {
+      ...toRefs(data)
+    }
+  }
+})
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
